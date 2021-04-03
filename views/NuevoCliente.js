@@ -15,27 +15,21 @@ const NuevoCliente = () => {
 
   const { Nombre, Telefono, Correo, Empresa } = inputValue;
   const leerNombre = async () => {
-    if (
-      Nombre.trim() === "" ||
-      Telefono.trim() === "" ||
-      Correo.trim() === "" ||
-      Empresa.trim() === ""
-    ) {
+    if (Object.values(inputValue).includes("")) {
       Alert.alert("Error", "Todos los campos son obligatorios", [
-        {
-          text: "ok",
-        },
+        { text: "ok" },
       ]);
-    } else {
-      console.log("Enviado con exito");
-  
-      try {
-        await axios.post("http://192.168.1.68:3000/Clientes", inputValue);
-      } catch (error) {
-        console.log("errores",error);
-      }
-      reset();
+      return;
     }
+    try {
+      console.log("Enviando mensaje");
+      const { data } = await axios.post("https://6067d50d98f405001728f0cf.mockapi.io/clientes", inputValue);
+
+      console.log("Axios data", data);
+    } catch (error) {
+      console.log("errores", error);
+    }
+    reset();
   };
 
   return (
